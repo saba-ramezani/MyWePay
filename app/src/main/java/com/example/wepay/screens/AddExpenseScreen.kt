@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -442,7 +443,7 @@ private fun ToNameField(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(0.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
@@ -473,7 +474,7 @@ private fun ToNameField(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxWidth(0.75F)
                 ) {
-                    val toNames = listOf("Saba", "Hiva", "Ali")
+                    val toNames = listOf("Saba", "Hiva", "Ali", "Reza", "Sara", "Maryam", "Amir", "Iman", "Mehdi")
 
                     ToNameDropdown(
                         modifier = Modifier,
@@ -489,7 +490,7 @@ private fun ToNameField(modifier: Modifier = Modifier) {
                         .fillMaxWidth()
                 ) {
                     AddToNameButton(onClick = {
-                        if (selectedToName.isNotEmpty()) {
+                        if (selectedToName.isNotEmpty() && !userInputs.contains(selectedToName)) {
                             userInputs = userInputs.toMutableList() + selectedToName
                             toNameFields = toNameFields.toMutableList() + TextFieldState()
                         }
@@ -501,7 +502,8 @@ private fun ToNameField(modifier: Modifier = Modifier) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp)
+                .height(220.dp)
+                .padding(top = 10.dp)
         ) {
             items(userInputs) { userInput ->
                 Row(
@@ -510,7 +512,7 @@ private fun ToNameField(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp)
-                        .background(color = Color(0xFFcbc3e0))
+                        .background(color = Color(0xFFdcd8e8))
                 ) {
                     Icon(
                         imageVector = Icons.Default.Person,
@@ -556,7 +558,7 @@ private fun AddExpenseForm(
     AmountState : TextFieldState = remember { TextFieldState()},
     GroupNameState : TextFieldState = remember { TextFieldState()}) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
+        verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.Top),
         horizontalAlignment = Alignment.End,
     ) {
         FromNameField(FromNameState = FromNameState)
@@ -572,7 +574,10 @@ private fun AddExpenseButton(modifier: Modifier = Modifier, onAddClick: () -> Un
 
     Spacer(modifier = Modifier
         .fillMaxWidth()
-        .height(20.dp))
+        .height(20.dp)
+        .background(color = Color.White)
+    )
+
 
     Button(
         onClick = { onAddClick()} ,
@@ -641,7 +646,7 @@ fun AddExpenseScreen(
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 65.dp)
+            .padding(top = 30.dp)
             .background(color = Color.White),
         color = Color.White,
     ) {
