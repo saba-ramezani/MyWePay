@@ -384,7 +384,6 @@ private fun MemberNameField(modifier: Modifier = Modifier) {
 
 
 @Composable
-@Preview
 private fun CreateGroupForm(
     modifier: Modifier = Modifier,
     GroupNameState : TextFieldState = remember { TextFieldState()},
