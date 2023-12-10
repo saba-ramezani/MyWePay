@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -205,6 +208,7 @@ private fun CategoryField(modifier: Modifier = Modifier, CategoryState : TextFie
 private fun AddMemberButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Button(
         onClick = onClick,
+        contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
         modifier = Modifier
             .border(
@@ -217,21 +221,14 @@ private fun AddMemberButton(modifier: Modifier = Modifier, onClick: () -> Unit) 
             .padding(0.dp)
             .background(color = Color.White)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Icon(
+            imageVector = Icons.Default.Add,
+            tint = Color.White,
+            contentDescription = "Add Icon",
             modifier = Modifier
-                .background(color = Color.White)
-                .size(40.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                tint = Color.White,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(40.dp)
-            )
-        }
+                .height(25.dp)
+                .width(25.dp)
+        )
     }
 }
 
@@ -339,46 +336,51 @@ private fun MemberNameField(modifier: Modifier = Modifier) {
     }
 
 
-    userInputs.forEach { userInput ->
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-                .background(color = Color.White)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Person,
-                tint = Color.Black,
-                contentDescription = "Navigation Icon",
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(220.dp)
+            .padding(top = 10.dp)
+    ) {
+        items(userInputs) { userInput ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .height(20.dp)
-                    .width(20.dp)
-            )
-            Text(
-                text = userInput,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.Black,
-                modifier = Modifier
-                    .fillMaxWidth(0.7F)
-                    .height(30.dp)
-                    .background(color = Color.White)
-                    .border(width = 1.dp, color = Color.Black, shape = RectangleShape)
-                    .padding(start = 10.dp, top = 4.dp)
-
-            )
-            Icon(
-                imageVector = Icons.Default.Delete,
-                tint = Color.Black,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier
-                    .height(20.dp)
-                    .width(20.dp)
-            )
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .background(color = Color(0xFFdcd8e8))
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Person,
+                    tint = Color.Black,
+                    contentDescription = "Navigation Icon",
+                    modifier = Modifier
+                        .height(20.dp)
+                        .width(20.dp)
+                )
+                Text(
+                    text = userInput,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .fillMaxWidth(0.7F)
+                        .height(30.dp)
+                        .background(color = Color.White)
+                        .border(width = 1.dp, color = Color.Black, shape = RectangleShape)
+                        .padding(start = 10.dp, top = 4.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    tint = Color.Black,
+                    contentDescription = "Navigation Icon",
+                    modifier = Modifier
+                        .height(20.dp)
+                        .width(20.dp)
+                )
+            }
         }
-
     }
 }
 
@@ -389,7 +391,7 @@ private fun CreateGroupForm(
     GroupNameState : TextFieldState = remember { TextFieldState()},
     CategoryState : TextFieldState = remember { TextFieldState()} ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
+        verticalArrangement = Arrangement.spacedBy(0.dp, Alignment.Top),
         horizontalAlignment = Alignment.End,
     ) {
         GroupNameField(GroupNameState = GroupNameState)
@@ -406,7 +408,7 @@ private fun CreateGroupButton(modifier: Modifier = Modifier, onAddClick: () -> U
         onClick = { onAddClick()} ,
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
         modifier = Modifier
-            .width(448.dp)
+            .fillMaxWidth()
             .height(44.dp)
             .background(color = Color(0xFF3A00E5), shape = RoundedCornerShape(size = 12.dp))
     ) {
@@ -467,7 +469,7 @@ fun AddGroupScreen(
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 65.dp)
+            .padding(top = 30.dp)
             .background(color = Color.White),
         color = Color.White,
     ) {
@@ -482,15 +484,6 @@ fun AddGroupScreen(
             ) {
             CreateGroupForm(GroupNameState = GroupNameState, CategoryState = CategoryState)
             CreateGroupButton {
-                // Call the onAddClick callback if provided
-
-                /*if (fromNameState.text == "" || toNameState.text == "" || amountState.text == "") {
-                    onAddGroupClick()
-                } else {
-                    //DataSource().addExpense(fromNameState.text + " to " + toNameState.text, amountState.text.toInt(), 0)
-                    onAddGroupClick()
-                }*/
-
                 onAddGroupClick()
 
             }

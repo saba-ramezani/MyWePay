@@ -168,31 +168,6 @@ fun HomeTabScreen(
     modifier: Modifier = Modifier
 ) {
 
-
-    /*var result by remember { mutableStateOf<String?>(null) }
-    var isLoading by remember { mutableStateOf(false) }
-
-    // CoroutineScope to launch the suspend function
-    val coroutineScope = rememberCoroutineScope()
-
-    // LaunchedEffect to call the suspend function when the composable is created
-    LaunchedEffect(true) {
-        try {
-            // Set loading state to true while fetching data
-            isLoading = true
-
-            // Call the suspend function
-            result = DataSource().getAllExpenses()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            // Handle error
-        } finally {
-            // Set loading state to false after the request is complete
-            isLoading = false
-        }
-    }*/
-
     var expensesList by remember { mutableStateOf(emptyList<Expense>()) }
 
     // Simulate loading the expenses from a data source

@@ -568,24 +568,17 @@ private fun AddExpenseForm(
 @Composable
 private fun AddExpenseButton(modifier: Modifier = Modifier, onAddClick: () -> Unit) {
 
-    Spacer(modifier = Modifier
-        .fillMaxWidth()
-        .height(20.dp)
-        .background(color = Color.White)
-    )
-
 
     Button(
         onClick = { onAddClick()} ,
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
-        contentPadding = PaddingValues(0.dp),
         modifier = Modifier
             .fillMaxWidth()
             .height(44.dp)
             .background(color = Color(0xFF3A00E5), shape = RoundedCornerShape(size = 12.dp))
     ) {
         Text(
-            text = "Add",
+            text = "Create",
             style = TextStyle(
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
@@ -594,9 +587,8 @@ private fun AddExpenseButton(modifier: Modifier = Modifier, onAddClick: () -> Un
                 letterSpacing = 0.4.sp,
             ),
             modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-                .zIndex(1000F)
+                .width(54.dp)
+                .height(20.dp)
         )
     }
 }
@@ -650,7 +642,7 @@ fun AddExpenseScreen(
             verticalArrangement = Arrangement.spacedBy(60.dp, Alignment.Top),
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
-                .padding(start = 15.dp, top = 50.dp, bottom = 50.dp, end = 15.dp)
+                .padding(start = 15.dp, top = 50.dp, bottom = 65.dp, end = 15.dp)
                 .background(color = Color.White)
                 .fillMaxSize(),
 
