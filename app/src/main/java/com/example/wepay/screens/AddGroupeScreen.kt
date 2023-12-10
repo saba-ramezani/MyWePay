@@ -98,19 +98,25 @@ private fun GroupNameField(modifier: Modifier = Modifier, GroupNameState : TextF
         horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .width(448.dp)
+            .fillMaxWidth()
             .height(76.dp)
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .fillMaxWidth(0.25F)
+                .height(76.dp)
         ) {
             FieldTitle(title = "Group")
             FieldTitle(title = "Name")
         }
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(76.dp)
         ) {
             GroupNameTextField(GroupNameState = GroupNameState)
         }
@@ -171,18 +177,24 @@ private fun CategoryField(modifier: Modifier = Modifier, CategoryState : TextFie
         horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .width(448.dp)
+            .fillMaxWidth()
             .height(76.dp)
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
+            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.End,
+            modifier = Modifier
+                .height(76.dp)
+                .fillMaxWidth(0.25F)
         ) {
             FieldTitle(title = "Category")
         }
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .height(76.dp)
+                .fillMaxWidth()
         ) {
             CategoryTextField(CategoryState = CategoryState)
         }
@@ -291,23 +303,7 @@ private fun MemberNameField(modifier: Modifier = Modifier) {
                 .height(76.dp)
                 .fillMaxWidth(0.25F)
         ) {
-            Text(
-                text = "Members",
-
-                // label large
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    lineHeight = 17.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF3A00E5),
-                    letterSpacing = 0.2.sp,
-                    textAlign = TextAlign.Start
-                ),
-                modifier = Modifier
-                    .height(20.dp)
-                    .fillMaxWidth()
-                    .padding(end = 20.dp)
-            )
+            FieldTitle(title = "Members")
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
@@ -444,11 +440,11 @@ private fun FieldTitle(modifier: Modifier = Modifier, title: String) {
             fontWeight = FontWeight(500),
             color = Color(0xFF3A00E5),
             letterSpacing = 0.2.sp,
-            textAlign = TextAlign.End
+            textAlign = TextAlign.Start
         ),
         modifier = Modifier
             .height(20.dp)
-            .width(85.dp)
+            .fillMaxWidth()
             .padding(end = 20.dp)
     )
 }
