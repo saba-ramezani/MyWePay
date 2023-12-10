@@ -38,20 +38,19 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wepay.data.DataSource
-
-
-
+import java.lang.reflect.Member
 
 
 @Composable
-private fun FromNameTextField(modifier: Modifier = Modifier, FromNameState : TextFieldState = remember { TextFieldState() }) {
+private fun GroupNameTextField(modifier: Modifier = Modifier, GroupNameState : TextFieldState = remember { TextFieldState() }) {
     BasicTextField(
-        value = FromNameState.text,
+        value = GroupNameState.text,
         onValueChange = {
-            FromNameState.text = it
+            GroupNameState.text = it
 
         },
         maxLines = 1,
@@ -78,7 +77,7 @@ private fun FromNameTextField(modifier: Modifier = Modifier, FromNameState : Tex
                     )
                     .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
             ) {
-                if (FromNameState.text.isEmpty()) {
+                if (GroupNameState.text.isEmpty()) {
                     Text(
                         text = "Name",
                         fontSize = 15.sp,
@@ -94,7 +93,7 @@ private fun FromNameTextField(modifier: Modifier = Modifier, FromNameState : Tex
 }
 
 @Composable
-private fun FromNameField(modifier: Modifier = Modifier, FromNameState : TextFieldState = remember { TextFieldState() }) {
+private fun GroupNameField(modifier: Modifier = Modifier, GroupNameState : TextFieldState = remember { TextFieldState() }) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
@@ -113,17 +112,17 @@ private fun FromNameField(modifier: Modifier = Modifier, FromNameState : TextFie
             verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
             horizontalAlignment = Alignment.End,
         ) {
-            FromNameTextField(FromNameState = FromNameState)
+            GroupNameTextField(GroupNameState = GroupNameState)
         }
     }
 }
 
 @Composable
-private fun AmountTextField(modifier: Modifier = Modifier, AmountState : TextFieldState = remember { TextFieldState() }) {
+private fun CategoryTextField(modifier: Modifier = Modifier, CategoryState : TextFieldState = remember { TextFieldState() }) {
     BasicTextField(
-        value = AmountState.text,
+        value = CategoryState.text,
         onValueChange = {
-            AmountState.text = it
+            CategoryState.text = it
 
         },
         maxLines = 1,
@@ -150,7 +149,7 @@ private fun AmountTextField(modifier: Modifier = Modifier, AmountState : TextFie
                     )
                     .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
             ) {
-                if (AmountState.text.isEmpty()) {
+                if (CategoryState.text.isEmpty()) {
                     Text(
                         text = "Category",
                         fontSize = 15.sp,
@@ -167,7 +166,7 @@ private fun AmountTextField(modifier: Modifier = Modifier, AmountState : TextFie
 
 
 @Composable
-private fun AmountField(modifier: Modifier = Modifier, AmountState : TextFieldState = remember { TextFieldState() }) {
+private fun CategoryField(modifier: Modifier = Modifier, CategoryState : TextFieldState = remember { TextFieldState() }) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
@@ -185,7 +184,7 @@ private fun AmountField(modifier: Modifier = Modifier, AmountState : TextFieldSt
             verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
             horizontalAlignment = Alignment.End,
         ) {
-            AmountTextField(AmountState = AmountState)
+            CategoryTextField(CategoryState = CategoryState)
         }
     }
 }
@@ -224,12 +223,13 @@ private fun AddMemberButton(modifier: Modifier = Modifier, onClick: () -> Unit) 
     }
 }
 
+
 @Composable
-private fun ToNameTextField(modifier: Modifier = Modifier, ToNameState : TextFieldState = remember { TextFieldState() }) {
+private fun MemberNameTextField(modifier: Modifier = Modifier, MemberNameState : TextFieldState = remember { TextFieldState() }) {
     BasicTextField(
-        value = ToNameState.text,
+        value = MemberNameState.text,
         onValueChange = {
-            ToNameState.text = it
+            MemberNameState.text = it
 
         },
         maxLines = 1,
@@ -246,7 +246,7 @@ private fun ToNameTextField(modifier: Modifier = Modifier, ToNameState : TextFie
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier
-                    .width(235.dp)
+                    .fillMaxWidth()
                     .height(50.dp)
                     .background(color = Color.White)
                     .border(
@@ -256,7 +256,7 @@ private fun ToNameTextField(modifier: Modifier = Modifier, ToNameState : TextFie
                     )
                     .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
             ) {
-                if (ToNameState.text.isEmpty()) {
+                if (MemberNameState.text.isEmpty()) {
                     Text(
                         text = "Write name",
                         fontSize = 15.sp,
@@ -272,46 +272,69 @@ private fun ToNameTextField(modifier: Modifier = Modifier, ToNameState : TextFie
 }
 
 @Composable
-private fun ToNameField(modifier: Modifier = Modifier) {
+private fun MemberNameField(modifier: Modifier = Modifier) {
 
-    var toNameFields by remember { mutableStateOf(listOf(TextFieldState())) }
+    var MemberNameFields by remember { mutableStateOf(listOf(TextFieldState())) }
     var userInputs by remember { mutableStateOf(listOf<String>()) }
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .width(448.dp)
+            .fillMaxWidth()
             .height(76.dp)
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .height(76.dp)
+                .fillMaxWidth(0.25F)
         ) {
-            FieldTitle(title = "Members")
+            Text(
+                text = "Members",
+
+                // label large
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    lineHeight = 17.sp,
+                    fontWeight = FontWeight(500),
+                    color = Color(0xFF3A00E5),
+                    letterSpacing = 0.2.sp,
+                    textAlign = TextAlign.Start
+                ),
+                modifier = Modifier
+                    .height(20.dp)
+                    .fillMaxWidth()
+                    .padding(end = 20.dp)
+            )
         }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
+            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .width(300.dp)
+                .fillMaxWidth()
                 .height(76.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-                horizontalAlignment = Alignment.End,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .fillMaxWidth(0.75F)
             ) {
-                ToNameTextField(ToNameState = toNameFields.lastOrNull() ?: TextFieldState())
+                MemberNameTextField(MemberNameState = MemberNameFields.lastOrNull() ?: TextFieldState())
             }
             Column(
                 verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-                horizontalAlignment = Alignment.End,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
                 AddMemberButton(onClick = {
-                    val newUserInput = toNameFields.lastOrNull()?.text.orEmpty()
+                    val newUserInput = MemberNameFields.lastOrNull()?.text.orEmpty()
                     if (newUserInput != "") {
                         userInputs = userInputs.toMutableList() + newUserInput
-                        toNameFields = toNameFields.toMutableList() + TextFieldState()
+                        MemberNameFields = MemberNameFields.toMutableList() + TextFieldState()
                     }
                 })
             }
@@ -365,26 +388,24 @@ private fun ToNameField(modifier: Modifier = Modifier) {
 
 
 @Composable
-private fun AddExpenseForm(
+@Preview
+private fun CreateGroupForm(
     modifier: Modifier = Modifier,
-    FromNameState : TextFieldState = remember { TextFieldState()},
-    AmountState : TextFieldState = remember { TextFieldState()} ,
-    CurrencyState : TextFieldState = remember { TextFieldState()},
-    ToNameState : TextFieldState = remember { TextFieldState() }) {
+    GroupNameState : TextFieldState = remember { TextFieldState()},
+    CategoryState : TextFieldState = remember { TextFieldState()} ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
         horizontalAlignment = Alignment.End,
     ) {
-        FromNameField(FromNameState = FromNameState)
-        AmountField(AmountState = AmountState)
-        //CurrencyField(CurrencyState = CurrencyState)
-        ToNameField()
+        GroupNameField(GroupNameState = GroupNameState)
+        CategoryField(CategoryState = CategoryState)
+        MemberNameField()
     }
 }
 
 
 @Composable
-private fun AddExpenseButton(modifier: Modifier = Modifier, onAddClick: () -> Unit) {
+private fun CreateGroupButton(modifier: Modifier = Modifier, onAddClick: () -> Unit) {
 
     Button(
         onClick = { onAddClick()} ,
@@ -441,19 +462,9 @@ fun AddGroupScreen(
     modifier: Modifier = Modifier,
     onAddGroupClick: () -> Unit,
     ) {
-    var fromNameState = remember { TextFieldState() }
-    var amountState = remember { TextFieldState() }
-    var currencyState = remember { TextFieldState() }
-    var toNameState = remember { TextFieldState() }
+    var GroupNameState = remember { TextFieldState() }
+    var CategoryState = remember { TextFieldState() }
 
-
-    // Function to store data in SharedPreferences
-    /*fun storeDataInPreferences(applicationContext: Context, key: String, value: String) {
-        val sharedPreferences = applicationContext.getSharedPreferences("ExpensePreferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString(key, value)
-        editor.apply()
-    }*/
 
 
 
@@ -474,20 +485,19 @@ fun AddGroupScreen(
                 .fillMaxSize(),
 
             ) {
-            AddExpenseForm(FromNameState = fromNameState, AmountState = amountState, CurrencyState = currencyState, ToNameState = toNameState)
-            AddExpenseButton {
+            CreateGroupForm(GroupNameState = GroupNameState, CategoryState = CategoryState)
+            CreateGroupButton {
                 // Call the onAddClick callback if provided
 
-                if (fromNameState.text == "" || toNameState.text == "" || amountState.text == "") {
+                /*if (fromNameState.text == "" || toNameState.text == "" || amountState.text == "") {
                     onAddGroupClick()
                 } else {
-                    DataSource().addExpense(fromNameState.text + " to " + toNameState.text, amountState.text.toInt(), 0)
+                    //DataSource().addExpense(fromNameState.text + " to " + toNameState.text, amountState.text.toInt(), 0)
                     onAddGroupClick()
-                }
+                }*/
 
+                onAddGroupClick()
 
-                // Store fromNameState.text in SharedPreferences
-                //storeDataInPreferences(applicationContext, "fromName", fromNameState.text)
             }
         }
     }
