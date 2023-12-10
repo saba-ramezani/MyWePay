@@ -116,6 +116,7 @@ private fun FromNameDropdown(
     }
 }
 
+
 @Composable
 private fun FromNameField(modifier: Modifier = Modifier, FromNameState : TextFieldState = remember { TextFieldState() }) {
     Row(
@@ -333,7 +334,7 @@ private fun GroupNameField(modifier: Modifier = Modifier, GroupNameState : TextF
 }
 
 @Composable
-private fun AddMemberButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+private fun AddToNameButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
@@ -368,56 +369,70 @@ private fun AddMemberButton(modifier: Modifier = Modifier, onClick: () -> Unit) 
 
 
 @Composable
-private fun MemberNameTextField(modifier: Modifier = Modifier, MemberNameState : TextFieldState = remember { TextFieldState() }) {
-    BasicTextField(
-        value = MemberNameState.text,
-        onValueChange = {
-            MemberNameState.text = it
+private fun ToNameDropdown(
+    modifier: Modifier = Modifier,
+    toNames: List<String>,
+    selectedToName: String,
+    onToNameSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
 
-        },
-        maxLines = 1,
-        textStyle = TextStyle(
-            fontSize = 15.sp,
-            lineHeight = 35.sp,
-            fontWeight = FontWeight(400),
-            color = Color.Black,
-            letterSpacing = 0.2.sp,
-            textAlign = TextAlign.Left,
+    Box(
+        modifier = modifier
+            .width(280.dp)
+            .height(50.dp)
+            .background(color = Color.White)
+            .border(
+                width = 1.dp,
+                color = Color(0xFFAFB1B6),
+                shape = RoundedCornerShape(size = 10.dp)
+            )
+            .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
+            .clickable { expanded = true }
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = if (selectedToName.isEmpty()) "Name" else selectedToName,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Normal,
+                color = if (selectedToName.isEmpty()) Color.LightGray else Color.Black
+            )
 
-            ),
-        cursorBrush = SolidColor(Color(0xFF3A00E5)),
-        decorationBox = { innerTextField ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .background(color = Color.White)
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFAFB1B6),
-                        shape = RoundedCornerShape(size = 10.dp)
-                    )
-                    .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
-            ) {
-                if (MemberNameState.text.isEmpty()) {
-                    Text(
-                        text = "Write name",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.LightGray
-                    )
-                }
-                innerTextField()
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(Color.White)
+        ) {
+            toNames.forEach { toName ->
+                DropdownMenuItem(
+                    onClick = {
+                        onToNameSelected(toName)
+                        expanded = false
+                    },
+                    text = { Text(text = toName) }
+                )
             }
-        },
-    )
-
+        }
+    }
 }
 
-@Composable
-private fun MemberNameField(modifier: Modifier = Modifier) {
 
-    var MemberNameFields by remember { mutableStateOf(listOf(TextFieldState())) }
+@Composable
+private fun ToNameField(modifier: Modifier = Modifier) {
+
+    var ToNameFields by remember { mutableStateOf(listOf(TextFieldState())) }
     var userInputs by remember { mutableStateOf(listOf<String>()) }
 
     Row(
@@ -449,7 +464,15 @@ private fun MemberNameField(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth(0.75F)
             ) {
-                MemberNameTextField(MemberNameState = MemberNameFields.lastOrNull() ?: TextFieldState())
+                val toNames = listOf("Saba", "Hiva", "Ali")
+                var selectedToName by remember { mutableStateOf("") }
+
+                ToNameDropdown(
+                    modifier = Modifier,
+                    toNames = toNames,
+                    selectedToName = selectedToName,
+                    onToNameSelected = { selectedToName = it }
+                )
             }
             Column(
                 verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
@@ -457,11 +480,11 @@ private fun MemberNameField(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                AddMemberButton(onClick = {
-                    val newUserInput = MemberNameFields.lastOrNull()?.text.orEmpty()
+                AddToNameButton(onClick = {
+                    val newUserInput = ToNameFields.lastOrNull()?.text.orEmpty()
                     if (newUserInput != "") {
                         userInputs = userInputs.toMutableList() + newUserInput
-                        MemberNameFields = MemberNameFields.toMutableList() + TextFieldState()
+                        ToNameFields = ToNameFields.toMutableList() + TextFieldState()
                     }
                 })
             }
@@ -528,7 +551,7 @@ private fun AddExpenseForm(
         FromNameField(FromNameState = FromNameState)
         AmountField(AmountState = AmountState)
         GroupNameField(GroupNameState = GroupNameState)
-        MemberNameField()
+        ToNameField()
     }
 }
 
