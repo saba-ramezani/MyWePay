@@ -3,6 +3,7 @@ package com.example.wepay.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,10 +19,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -97,6 +101,8 @@ private fun FromNameTextField(modifier: Modifier = Modifier, FromNameState : Tex
     )
 
 }
+
+
 
 @Composable
 private fun FromNameField(modifier: Modifier = Modifier, FromNameState : TextFieldState = remember { TextFieldState() }) {
@@ -208,51 +214,69 @@ private fun AmountField(modifier: Modifier = Modifier, AmountState : TextFieldSt
 
 
 @Composable
-private fun GroupNameTextField(modifier: Modifier = Modifier, GroupNameState : TextFieldState = remember { TextFieldState() }) {
-    BasicTextField(
-        value = GroupNameState.text,
-        onValueChange = {
-            GroupNameState.text = it
+private fun GroupNameDropdown(
+    modifier: Modifier = Modifier,
+    groupNames: List<String>,
+    selectedGroupName: String,
+    onGroupNameSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
 
-        },
-        maxLines = 1,
-        textStyle = TextStyle(
-            fontSize = 15.sp,
-            lineHeight = 35.sp,
-            fontWeight = FontWeight(400),
-            color = Color.Black,
-            letterSpacing = 0.2.sp,
-            textAlign = TextAlign.Left,
+    Box(
+        modifier = modifier
+            .width(280.dp)
+            .height(50.dp)
+            .background(color = Color.White)
+            .border(
+                width = 1.dp,
+                color = Color(0xFFAFB1B6),
+                shape = RoundedCornerShape(size = 10.dp)
+            )
+            .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
+            .clickable { expanded = true }
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = if (selectedGroupName.isEmpty()) "Name" else selectedGroupName,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Normal,
+                color = if (selectedGroupName.isEmpty()) Color.LightGray else Color.Black
+            )
 
-            ),
-        cursorBrush = SolidColor(Color(0xFF3A00E5)),
-        decorationBox = { innerTextField ->
-            Box(
-                modifier = Modifier
-                    .width(280.dp)
-                    .height(50.dp)
-                    .background(color = Color.White)
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFAFB1B6),
-                        shape = RoundedCornerShape(size = 10.dp)
-                    )
-                    .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
-            ) {
-                if (GroupNameState.text.isEmpty()) {
-                    Text(
-                        text = "Name",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.LightGray
-                    )
-                }
-                innerTextField()
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(Color.White)
+        ) {
+            groupNames.forEach { groupName ->
+                DropdownMenuItem(
+                    onClick = {
+                        onGroupNameSelected(groupName)
+                        expanded = false
+                    },
+                    text = { Text(text = groupName) }
+                )
             }
-        },
-    )
-
+        }
+    }
 }
+
+
+
+
+
 
 @Composable
 private fun GroupNameField(modifier: Modifier = Modifier, GroupNameState : TextFieldState = remember { TextFieldState() }) {
@@ -279,7 +303,15 @@ private fun GroupNameField(modifier: Modifier = Modifier, GroupNameState : TextF
                 .fillMaxWidth()
                 .height(76.dp)
         ) {
-            GroupNameTextField(GroupNameState = GroupNameState)
+            val groupNames = listOf("Group A", "Group B", "Group C")
+            var selectedGroupName by remember { mutableStateOf("") }
+
+            GroupNameDropdown(
+                modifier = Modifier,
+                groupNames = groupNames,
+                selectedGroupName = selectedGroupName,
+                onGroupNameSelected = { selectedGroupName = it }
+            )
         }
     }
 }
