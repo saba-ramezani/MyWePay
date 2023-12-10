@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -45,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.example.wepay.data.DataSource
 import java.lang.reflect.Member
 
@@ -435,103 +439,113 @@ private fun ToNameField(modifier: Modifier = Modifier) {
     var userInputs by remember { mutableStateOf(listOf<String>()) }
     var selectedToName by remember { mutableStateOf("") }
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(76.dp)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically),
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier
-                .height(76.dp)
-                .fillMaxWidth(0.25F)
-        ) {
-            FieldTitle(title = "To")
-        }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+            horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(76.dp)
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
+                verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
-                    .fillMaxWidth(0.75F)
+                    .height(76.dp)
+                    .fillMaxWidth(0.25F)
             ) {
-                val toNames = listOf("Saba", "Hiva", "Ali")
-
-                ToNameDropdown(
-                    modifier = Modifier,
-                    toNames = toNames,
-                    selectedToName = selectedToName,
-                    onToNameSelected = { selectedToName = it }
-                )
+                FieldTitle(title = "To")
             }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-                horizontalAlignment = Alignment.Start,
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(76.dp)
             ) {
-                AddToNameButton(onClick = {
-                    if (selectedToName.isNotEmpty()) {
-                        userInputs = userInputs.toMutableList() + selectedToName
-                        toNameFields = toNameFields.toMutableList() + TextFieldState()
-                    }
-                })
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier
+                        .fillMaxWidth(0.75F)
+                ) {
+                    val toNames = listOf("Saba", "Hiva", "Ali")
+
+                    ToNameDropdown(
+                        modifier = Modifier,
+                        toNames = toNames,
+                        selectedToName = selectedToName,
+                        onToNameSelected = { selectedToName = it }
+                    )
+                }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    AddToNameButton(onClick = {
+                        if (selectedToName.isNotEmpty()) {
+                            userInputs = userInputs.toMutableList() + selectedToName
+                            toNameFields = toNameFields.toMutableList() + TextFieldState()
+                        }
+                    })
+                }
+            }
+        }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp)
+        ) {
+            items(userInputs) { userInput ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .background(color = Color(0xFFcbc3e0))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        tint = Color.Black,
+                        contentDescription = "Navigation Icon",
+                        modifier = Modifier
+                            .height(20.dp)
+                            .width(20.dp)
+                    )
+                    Text(
+                        text = userInput,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = Color.Black,
+                        modifier = Modifier
+                            .fillMaxWidth(0.7F)
+                            .height(30.dp)
+                            .background(color = Color.White)
+                            .border(width = 1.dp, color = Color.Black, shape = RectangleShape)
+                            .padding(start = 10.dp, top = 4.dp)
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        tint = Color.Black,
+                        contentDescription = "Navigation Icon",
+                        modifier = Modifier
+                            .height(20.dp)
+                            .width(20.dp)
+                    )
+                }
             }
         }
     }
-
-
-    userInputs.forEach { userInput ->
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-                .background(color = Color.White)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Person,
-                tint = Color.Black,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier
-                    .height(20.dp)
-                    .width(20.dp)
-            )
-            Text(
-                text = userInput,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.Black,
-                modifier = Modifier
-                    .fillMaxWidth(0.7F)
-                    .height(30.dp)
-                    .background(color = Color.White)
-                    .border(width = 1.dp, color = Color.Black, shape = RectangleShape)
-                    .padding(start = 10.dp, top = 4.dp)
-
-            )
-            Icon(
-                imageVector = Icons.Default.Delete,
-                tint = Color.Black,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier
-                    .height(20.dp)
-                    .width(20.dp)
-            )
-        }
-
-    }
 }
+
 
 
 @Composable
@@ -556,11 +570,16 @@ private fun AddExpenseForm(
 @Composable
 private fun AddExpenseButton(modifier: Modifier = Modifier, onAddClick: () -> Unit) {
 
+    Spacer(modifier = Modifier
+        .fillMaxWidth()
+        .height(20.dp))
+
     Button(
         onClick = { onAddClick()} ,
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
+
         modifier = Modifier
-            .width(448.dp)
+            .fillMaxWidth()
             .height(44.dp)
             .background(color = Color(0xFF3A00E5), shape = RoundedCornerShape(size = 12.dp))
     ) {
@@ -576,6 +595,7 @@ private fun AddExpenseButton(modifier: Modifier = Modifier, onAddClick: () -> Un
             modifier = Modifier
                 .width(54.dp)
                 .height(20.dp)
+                .zIndex(1000F)
         )
     }
 }
@@ -629,24 +649,14 @@ fun AddExpenseScreen(
             verticalArrangement = Arrangement.spacedBy(60.dp, Alignment.Top),
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
-                .padding(start = 15.dp, top = 50.dp, bottom = 15.dp, end = 15.dp)
+                .padding(start = 15.dp, top = 50.dp, bottom = 50.dp, end = 15.dp)
                 .background(color = Color.White)
                 .fillMaxSize(),
 
             ) {
             AddExpenseForm(FromNameState = FromNameState, AmountState = AmountState)
             AddExpenseButton {
-                // Call the onAddClick callback if provided
-
-                /*if (fromNameState.text == "" || toNameState.text == "" || amountState.text == "") {
-                    onAddGroupClick()
-                } else {
-                    //DataSource().addExpense(fromNameState.text + " to " + toNameState.text, amountState.text.toInt(), 0)
-                    onAddGroupClick()
-                }*/
-
                 onAddClick()
-
             }
         }
     }
