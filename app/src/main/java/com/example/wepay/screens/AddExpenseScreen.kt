@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -342,6 +343,7 @@ private fun GroupNameField(modifier: Modifier = Modifier, GroupNameState : TextF
 private fun AddToNameButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Button(
         onClick = onClick,
+        contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
         modifier = Modifier
             .border(
@@ -354,23 +356,17 @@ private fun AddToNameButton(modifier: Modifier = Modifier, onClick: () -> Unit) 
             .padding(0.dp)
             .background(color = Color.White)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Icon(
+            imageVector = Icons.Default.Add,
+            tint = Color.White,
+            contentDescription = "Add Icon",
             modifier = Modifier
-                .background(color = Color.White)
-                .size(40.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                tint = Color.White,
-                contentDescription = "Navigation Icon",
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(40.dp)
-            )
-        }
+                .height(25.dp)
+                .width(25.dp)
+        )
     }
 }
+
 
 
 @Composable
@@ -582,7 +578,7 @@ private fun AddExpenseButton(modifier: Modifier = Modifier, onAddClick: () -> Un
     Button(
         onClick = { onAddClick()} ,
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
-
+        contentPadding = PaddingValues(0.dp),
         modifier = Modifier
             .fillMaxWidth()
             .height(44.dp)
