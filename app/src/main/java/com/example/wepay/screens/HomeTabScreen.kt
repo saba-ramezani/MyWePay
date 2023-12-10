@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -214,50 +215,6 @@ fun HomeTabScreen(
             ExpensesList(
                 expensesList = expensesList,
             )
-            /*result?.let {
-                Text(
-                    text = result.toString(),
-                    modifier = Modifier
-                        .padding(16.dp),
-                    color = Color.White,
-                    textAlign = TextAlign.Right
-                )
-                Text(
-                    text = result.toString(),
-                    modifier = Modifier
-                        .padding(16.dp),
-                    color = Color.White,
-                    textAlign = TextAlign.Right
-                )
-                Text(
-                    text = result.toString(),
-                    modifier = Modifier
-                        .padding(16.dp),
-                    color = Color.White,
-                    textAlign = TextAlign.Right
-                )
-                Text(
-                    text = result.toString(),
-                    modifier = Modifier
-                        .padding(16.dp),
-                    color = Color.White,
-                    textAlign = TextAlign.Right
-                )
-                Text(
-                    text = result.toString(),
-                    modifier = Modifier
-                        .padding(16.dp),
-                    color = Color.White,
-                    textAlign = TextAlign.Right
-                )
-                Text(
-                    text = result.toString(),
-                    modifier = Modifier
-                        .padding(16.dp),
-                    color = Color.White,
-                    textAlign = TextAlign.Right
-                )
-            }*/
 
             Column(
                 modifier = Modifier
@@ -269,28 +226,32 @@ fun HomeTabScreen(
                 Button(
                     onClick = {onAddGroupClicked()},
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
+                    contentPadding = PaddingValues(0.dp),
                     modifier = Modifier
                         .border(
                             width = 1.dp,
                             color = Color(0xFF3A00E5),
                             shape = CircleShape,
                         )
-                        .width(50.dp)
-                        .height(50.dp)
+                        .width(40.dp)
+                        .height(40.dp)
                         .zIndex(1000F)
                         .align(Alignment.CenterHorizontally)
                         .padding(0.dp)
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.background(color = Color.White, shape = CircleShape).size(50.dp)
+                        horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
+                        modifier = Modifier.size(40.dp)
                     ) {
                         //val image = painterResource(R.drawable.add_expense)
                         Icon(
                             imageVector = Icons.Default.Person,
                             tint = Color.White,
                             contentDescription = "Navigation Icon",
-                            modifier = Modifier.height(40.dp).width(40.dp)
+                            modifier = Modifier
+                                .height(20.dp)
+                                .width(20.dp)
                         )
 
                     }
@@ -301,14 +262,15 @@ fun HomeTabScreen(
                 Button(
                     onClick = {onAddExpenseClicked()},
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A00E5)),
+                    contentPadding = PaddingValues(0.dp),
                     modifier = Modifier
                         .border(
                             width = 1.dp,
                             color = Color(0xFF3A00E5),
                             shape = CircleShape,
                         )
-                        .width(70.dp)
-                        .height(70.dp)
+                        .width(60.dp)
+                        .height(60.dp)
                         .zIndex(1000F)
                 ) {
                     Row(
@@ -318,7 +280,10 @@ fun HomeTabScreen(
                         Icon(
                             imageVector = Icons.Default.Add,
                             tint = Color.White,
-                            contentDescription = "Navigation Icon"
+                            contentDescription = "Navigation Icon",
+                            modifier = Modifier
+                                .height(35.dp)
+                                .width(35.dp)
                         )
 
                     }

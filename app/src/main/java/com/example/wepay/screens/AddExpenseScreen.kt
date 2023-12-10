@@ -594,8 +594,8 @@ private fun AddExpenseButton(modifier: Modifier = Modifier, onAddClick: () -> Un
                 letterSpacing = 0.4.sp,
             ),
             modifier = Modifier
-                .width(54.dp)
-                .height(20.dp)
+                .fillMaxWidth()
+                .height(40.dp)
                 .zIndex(1000F)
         )
     }
