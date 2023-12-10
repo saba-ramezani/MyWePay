@@ -55,54 +55,66 @@ class TextFieldState(){
 }
 
 
+
 @Composable
-private fun FromNameTextField(modifier: Modifier = Modifier, FromNameState : TextFieldState = remember { TextFieldState() }) {
-    BasicTextField(
-        value = FromNameState.text,
-        onValueChange = {
-            FromNameState.text = it
+private fun FromNameDropdown(
+    modifier: Modifier = Modifier,
+    fromNames: List<String>,
+    selectedFromName: String,
+    onFromNameSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
 
-        },
-        maxLines = 1,
-        textStyle = TextStyle(
-            fontSize = 15.sp,
-            lineHeight = 35.sp,
-            fontWeight = FontWeight(400),
-            color = Color.Black,
-            letterSpacing = 0.2.sp,
-            textAlign = TextAlign.Left,
+    Box(
+        modifier = modifier
+            .width(280.dp)
+            .height(50.dp)
+            .background(color = Color.White)
+            .border(
+                width = 1.dp,
+                color = Color(0xFFAFB1B6),
+                shape = RoundedCornerShape(size = 10.dp)
+            )
+            .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
+            .clickable { expanded = true }
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = if (selectedFromName.isEmpty()) "Name" else selectedFromName,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Normal,
+                color = if (selectedFromName.isEmpty()) Color.LightGray else Color.Black
+            )
 
-            ),
-        cursorBrush = SolidColor(Color(0xFF3A00E5)),
-        decorationBox = { innerTextField ->
-            Box(
-                modifier = Modifier
-                    .width(280.dp)
-                    .height(50.dp)
-                    .background(color = Color.White)
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFAFB1B6),
-                        shape = RoundedCornerShape(size = 10.dp)
-                    )
-                    .padding(start = 10.dp, top = 12.5.dp, bottom = 12.5.dp, end = 10.dp)
-            ) {
-                if (FromNameState.text.isEmpty()) {
-                    Text(
-                        text = "Name",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.LightGray
-                    )
-                }
-                innerTextField()
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(Color.White)
+        ) {
+            fromNames.forEach { fromName ->
+                DropdownMenuItem(
+                    onClick = {
+                        onFromNameSelected(fromName)
+                        expanded = false
+                    },
+                    text = { Text(text = fromName) }
+                )
             }
-        },
-    )
-
+        }
+    }
 }
-
-
 
 @Composable
 private fun FromNameField(modifier: Modifier = Modifier, FromNameState : TextFieldState = remember { TextFieldState() }) {
@@ -129,7 +141,15 @@ private fun FromNameField(modifier: Modifier = Modifier, FromNameState : TextFie
                 .fillMaxWidth()
                 .height(76.dp)
         ) {
-            FromNameTextField(FromNameState = FromNameState)
+            val fromNames = listOf("Saba", "Hiva", "Ali")
+            var selectedFromName by remember { mutableStateOf("") }
+
+            FromNameDropdown(
+                modifier = Modifier,
+                fromNames = fromNames,
+                selectedFromName = selectedFromName,
+                onFromNameSelected = { selectedFromName = it }
+            )
         }
     }
 }
@@ -272,10 +292,6 @@ private fun GroupNameDropdown(
         }
     }
 }
-
-
-
-
 
 
 @Composable
