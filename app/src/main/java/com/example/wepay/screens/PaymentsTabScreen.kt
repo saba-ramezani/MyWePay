@@ -83,7 +83,7 @@ private fun ExpenseCard(expense: Expense, modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(76.dp)
-                    .background(color = Color.LightGray)
+                    .background(color = Color(0xFFEEC6C6))
             )
             {
                 Column(
@@ -124,7 +124,7 @@ private fun ExpenseCard(expense: Expense, modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(76.dp)
-                    .background(color = Color.LightGray)
+                    .background(color = Color(0xFFB6D1E2))
             )
             {
                 Column(
@@ -162,7 +162,7 @@ private fun ExpenseCard(expense: Expense, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HomeTabScreen(
+fun PaymentsTabScreen(
     onAddExpenseClicked : () -> Unit,
     onAddGroupClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -191,7 +191,7 @@ fun HomeTabScreen(
                 expensesList = expensesList,
             )
 
-            Column(
+            /*Column(
                 modifier = Modifier
                     .padding(end = 10.dp)
                     .align(Alignment.BottomEnd)
@@ -263,7 +263,7 @@ fun HomeTabScreen(
 
                     }
                 }
-            }
+            }*/
 
         }
     }

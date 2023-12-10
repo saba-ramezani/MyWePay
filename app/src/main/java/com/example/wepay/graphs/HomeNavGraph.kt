@@ -11,6 +11,7 @@ import com.example.wepay.BottomBarScreen
 import com.example.wepay.screens.AddExpenseScreen
 import com.example.wepay.screens.AddGroupScreen
 import com.example.wepay.screens.HomeTabScreen
+import com.example.wepay.screens.PaymentsTabScreen
 import com.example.wepay.screens.ScreenContent
 
 @Composable
@@ -37,10 +38,20 @@ fun HomeNavGraph(navController: NavHostController) {
             )*/
         }
         composable(route = BottomBarScreen.Payments.route) {
-            ScreenContent(
-                name = BottomBarScreen.Payments.route,
-                onClick = { }
+            PaymentsTabScreen(
+                onAddExpenseClicked = {
+                    navController.navigate(AddExpenseScreen.AddExpense.route)
+                },
+                onAddGroupClicked = {
+                    navController.navigate(AddGroupScreen.AddGroup.route)
+                }
             )
+            /*ScreenContent(
+                name = BottomBarScreen.Home.route,
+                onClick = {
+                    navController.navigate(Graph.DETAILS)
+                }
+            )*/
         }
         composable(route = BottomBarScreen.People.route) {
             ScreenContent(
