@@ -431,9 +431,9 @@ private fun ToNameDropdown(
 
 @Composable
 private fun ToNameField(modifier: Modifier = Modifier) {
-
-    var ToNameFields by remember { mutableStateOf(listOf(TextFieldState())) }
+    var toNameFields by remember { mutableStateOf(listOf(TextFieldState())) }
     var userInputs by remember { mutableStateOf(listOf<String>()) }
+    var selectedToName by remember { mutableStateOf("") }
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
@@ -465,7 +465,6 @@ private fun ToNameField(modifier: Modifier = Modifier) {
                     .fillMaxWidth(0.75F)
             ) {
                 val toNames = listOf("Saba", "Hiva", "Ali")
-                var selectedToName by remember { mutableStateOf("") }
 
                 ToNameDropdown(
                     modifier = Modifier,
@@ -481,15 +480,13 @@ private fun ToNameField(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
             ) {
                 AddToNameButton(onClick = {
-                    val newUserInput = ToNameFields.lastOrNull()?.text.orEmpty()
-                    if (newUserInput != "") {
-                        userInputs = userInputs.toMutableList() + newUserInput
-                        ToNameFields = ToNameFields.toMutableList() + TextFieldState()
+                    if (selectedToName.isNotEmpty()) {
+                        userInputs = userInputs.toMutableList() + selectedToName
+                        toNameFields = toNameFields.toMutableList() + TextFieldState()
                     }
                 })
             }
         }
-
     }
 
 
